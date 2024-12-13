@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD Example</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>CRUD con Usuarios y Pedidos</h1>
+    </header>
+    <main>
+      <section>
+        <h2>Usuarios y Pedidos</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Edad</th>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.forEach(row => { %>
+            <tr>
+              <td><%= row.id %></td>
+              <td><%= row.user_name %></td>
+              <td><%= row.email %></td>
+              <td><%= row.age %></td>
+              <td><%= row.product || 'Sin pedido' %></td>
+              <td><%= row.price ? `$${row.price}` : 'N/A' %></td>
+              <td>
+                <form
+                  action="/delete-user"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <input type="hidden" name="id" value="<%= row.id %>" />
+                  <button type="submit">Eliminar</button>
+                </form>
+                <form
+                  action="/update-user"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <input type="hidden" name="id" value="<%= row.id %>" />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Nuevo nombre"
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="Nuevo email"
+                    required
+                  />
+                  <input
+                    type="number"
+                    name="age"
+                    placeholder="Nueva edad"
+                    required
+                  />
+                  <button type="submit">Actualizar</button>
+                </form>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Agregar Usuario</h2>
+        <form action="/add-user" method="POST">
+          <input type="text" name="name" placeholder="Nombre" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="number" name="age" placeholder="Edad" required />
+          <button type="submit">Agregar</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
